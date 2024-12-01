@@ -1,0 +1,10 @@
+{
+    "Name": "ESPCStorageStack",
+    "DenySettingsMode": "DenyWriteAndDelete",
+    "DenySettingsApplyToChildScopes": true,
+    "ActionOnUnmanage": "DeleteAll",
+    "DenySettingsExcludedAction": [
+        "Microsoft.Storage/storageAccounts/blobServices/containers/write"
+    ],
+    "Force": true
+}

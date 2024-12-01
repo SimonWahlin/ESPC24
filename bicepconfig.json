@@ -1,0 +1,51 @@
+{
+  // See https://aka.ms/bicep/config for more information on Bicep configuration options
+  // Press CTRL+SPACE/CMD+SPACE at any location to see Intellisense suggestions
+  "analyzers": {
+    "core": {
+      "rules": {
+        "no-unused-params": {
+          "level": "warning"
+        }
+      }
+    }
+  },
+  "cloud": {
+    "currentProfile": "AzureCloud",
+    "credentialOptions": {
+      // "managedIdentity": {
+      //   "clientId": "00000000-0000-0000-0000-000000000000",
+      //   "resourceId": "00000000-0000-0000-0000-000000000000",
+      //   "type": "SystemAssigned"
+      // }
+    },
+    "credentialPrecedence": ["AzureCLI", "AzurePowerShell", "Environment", "ManagedIdentity", "VisualStudio", "VisualStudioCode"]
+  },
+  "moduleAliases": {
+    "ts": {
+      "corp": {
+        "subscription": "82715c44-513a-4b5f-95d9-d95bad8351d6",
+        "resourceGroup": "experiment-shared-rg"
+      }
+    },
+    "br": {
+      "corp": {
+        "registry": "biceptraining.azurecr.io",
+        "modulePath": "bicep/modules"
+      }
+    }
+  },
+  "formatting": {
+    "indentKind": "Space",
+    "indentSize": 2,
+    "insertFinalNewline": true
+  },
+  "experimentalFeaturesEnabled": {
+    "extensibility": false,
+    "localDeploy": false,
+    "optionalModuleNames": false,
+    "resourceDerivedTypes": false,
+    "sourceMapping": false,
+    "extendableParamFiles": false
+  }
+}

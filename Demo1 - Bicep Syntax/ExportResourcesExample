@@ -1,0 +1,4 @@
+Export-BicepResource -KQLQuery 'resources
+| where subscriptionId == "82715c44-513a-4b5f-95d9-d95bad8351d6"
+| where resourceGroup == "espc-demo1"' -AsString | Set-Clipboard
+
