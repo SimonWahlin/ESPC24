@@ -81,6 +81,7 @@ resource keyVault_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-
   }
 ]
 
+@export()
 type RoleAssignment = {
   @description('Optional. The name (as GUID) of the role assignment. If not provided, a GUID will be generated.')
   name: string?

@@ -7,6 +7,7 @@ metadata owner = 'SimonWahlin'
 param storageAccountName string = 'espcdemostorage'
 
 @secure()
+#disable-next-line secure-parameter-default
 param adminPrincipalId string = '69615b5e-8b26-430c-ae89-4e626f5ba240'
 
 @description('Location for all resources.')

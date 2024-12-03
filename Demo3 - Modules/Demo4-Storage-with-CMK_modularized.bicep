@@ -3,6 +3,8 @@ metadata description = 'This template deploys a storage account with a key vault
 metadata version = '1.0.0'
 metadata owner = 'SimonWahlin'
 
+// import {RoleAssignment} from 'Modules/keyVault-Rbac2.bicep'
+
 @description('Name of the storage account.')
 param storageAccountName string = 'espcdemostorage'
 

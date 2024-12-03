@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "languageVersion": "2.0",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "0.31.92.45157",
+      "templateHash": "12433407640125344041"
+    },
+    "author": "SimonWahlin",
+    "version": "1.0.0",
+    "moduleDescription": "Deploys a storage account"
+  },
+  "parameters": {
+    "name": {
+      "type": "string",
+      "defaultValue": "espcdemosa",
+      "minLength": 3,
+      "maxLength": 24,
+      "metadata": {
+        "description": "The resource name"
+      }
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]",
+      "metadata": {
+        "description": "Sets the location of the resource."
+      }
+    },
+    "allowedIpAddresses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "defaultValue": [
+        "193.182.233.197"
+      ],
+      "metadata": {
+        "description": "Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed."
+      }
+    },
+    "private": {
+      "type": "bool",
+      "defaultValue": false
+    }
+  },
+  "variables": {
+    "ipRules": "[map(parameters('allowedIpAddresses'), lambda('ip', createObject('value', lambdaVariables('ip'))))]",
+    "privateConfig": "[if(equals(parameters('private'), true()), createObject('allowedCopyScope', 'PrivateLink', 'publicNetworkAccess', 'Disabled'), createObject())]"
+  },
+  "resources": {
+    "myStorage": {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": "[shallowMerge(createArray(variables('privateConfig'), createObject('accessTier', 'Hot', 'allowSharedKeyAccess', false(), 'minimumTlsVersion', 'TLS1_3', 'networkAcls', createObject('defaultAction', 'Deny', 'ipRules', variables('ipRules')))))]"
+    },
+    "blobService": {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}', parameters('name'), 'default')]",
+      "dependsOn": [
+        "myStorage"
+      ]
+    },
+    "container": {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-05-01",
+      "name": "[format('{0}/{1}/{2}', parameters('name'), 'default', 'espcdemo')]",
+      "dependsOn": [
+        "blobService"
+      ]
+    }
+  },
+  "outputs": {
+    "id": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('name'))]"
+    },
+    "name": {
+      "type": "string",
+      "value": "[parameters('name')]"
+    }
+  }
+}
